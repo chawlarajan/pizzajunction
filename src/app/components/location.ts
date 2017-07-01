@@ -9,5 +9,5 @@ export class Location {
 
 export class GeoLocation {
     lat: number;
-    long: number;
+    lng: number;
 }

@@ -8,10 +8,10 @@ import { MapService } from './map.service';
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent  {
-  pointA: GeoLocation = null;
-  pointB: GeoLocation = {
+  destination: GeoLocation = null;
+  origin: GeoLocation = {
     lat: 49.054765,
-    long: -122.325902
+    lng: -122.325902
   };
 
   pageTitle = 'Location Search';
@@ -24,18 +24,27 @@ export class AppComponent  {
     zip: 'V4A4Z2'
   };
   distance: number = 0;
+  errorMessage: string;
 
   constructor(private mapSVC: MapService){}
 
   searchLocation() {
     this.mapSVC.searchLocation(this.location)
-    .then((pointA: GeoLocation) => {
-      this.pointA = pointA;
+    .then((geoLocation: GeoLocation) => {
+      this.destination = geoLocation;
+    })
+    .catch((message: string) => {
+      this.showMessage(message);
     });
   }
 
+  showMessage(message: string) {
+    this.errorMessage = message;
+    setTimeout(() => this.errorMessage = "", 5000);
+  }
+
   getDistance() {
-    this.mapSVC.getDistance(this.pointA, this.pointB)
+    this.mapSVC.getDistance(this.origin, this.destination)
     .then((distance: number) => {
       this.distance = distance;
     });
@@ -48,7 +57,7 @@ export class AppComponent  {
   }
 
   clear() {
-    this.pointA = null;
+    this.destination = null;
     this.location.street = '';
     this.location.suite = '';
     this.location.zip = '';

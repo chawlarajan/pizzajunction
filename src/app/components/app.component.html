@@ -1,7 +1,7 @@
 <h1>{{pageTitle}}</h1>
 <div class="container">
-    <div class="form left">
-        
+    <div class="form left">        
+    <div class="error" *ngIf="errorMessage">{{errorMessage}}</div>        
         <div class="field">
             <input type="text" [(ngModel)]="location.street" placeholder="Street" />
         </div>
@@ -24,10 +24,10 @@
 
     <div class="form left">
         <div class="field">
-            Location Info: <span *ngIf="pointA">LAT: {{pointA.lat}} LONG: {{pointA.long}}</span>
+            Location Info: <span *ngIf="destination">LAT: {{destination.lat}} LONG: {{destination.lng}}</span>
         </div>
        <div class="button">
-            <button (click)="getDistance()" [disabled]="!pointA">Get Distance</button>
+            <button (click)="getDistance()" [disabled]="!destination">Get Distance</button>
         </div>
         <div class="field" *ngIf="distance > 0">
             Distance in KM {{distance}}
