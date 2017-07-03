@@ -25,28 +25,33 @@ export class AppComponent  {
   };
   distance: number = 0;
   errorMessage: string;
+  mySize: string = "40px";
 
-  constructor(private mapSVC: MapService){}
+  constructor(private mapService: MapService){}
 
-  searchLocation() {
-    this.mapSVC.searchLocation(this.location)
+  private searchLocation(): void {
+    this.mySize = "20px";
+    this.mapService.searchLocation(this.location)
     .then((geoLocation: GeoLocation) => {
       this.destination = geoLocation;
     })
     .catch((message: string) => {
-      this.showMessage(message);
+      this._showMessage(message);
     });
   }
 
-  showMessage(message: string) {
+  private _showMessage(message: string): void {
     this.errorMessage = message;
     setTimeout(() => this.errorMessage = "", 5000);
   }
 
   getDistance() {
-    this.mapSVC.getDistance(this.origin, this.destination)
+    this.mapService.getDistance(this.origin, this.destination)
     .then((distance: number) => {
       this.distance = distance;
+    })
+    .catch((message: string) => {
+      this._showMessage(message);
     });
   }
 
@@ -57,6 +62,7 @@ export class AppComponent  {
   }
 
   clear() {
+    this.mySize = "40px";
     this.destination = null;
     this.location.street = '';
     this.location.suite = '';
